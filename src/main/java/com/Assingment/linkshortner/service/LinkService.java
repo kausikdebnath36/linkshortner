@@ -3,16 +3,17 @@ package com.Assingment.linkshortner.service;
 import com.Assingment.linkshortner.dto.LinkDetailDto;
 
 import java.util.Date;
+import java.util.List;
 
 public interface LinkService {
 
     LinkDetailDto createShortlink(LinkDetailDto link);
 
-    LinkDetailDto getDetailByShortUrl(LinkDetailDto link);
+    LinkDetailDto getDetailByShortUrl(String link);
 
-    LinkDetailDto updateExpiryDate(LinkDetailDto link);
+    List<LinkDetailDto> getAllShortUrl();
 
-//    LinkDetailDto getAllShortUrl(LinkDetailDto link);
+    LinkDetailDto updateShortUrl(List<LinkDetailDto> list,String shortUrl,String newOriginalUrl);
 
-//    void deleteUrl(Date expiry);
+
 }

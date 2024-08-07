@@ -8,11 +8,11 @@ public class LinkDetailMapper {
 		public static LinkDetailDto maptoLinkDetailDto(LinkDetail linkdetail) {
 			LinkDetailDto linkdetaildto= new LinkDetailDto(
 					linkdetail.getId(),
-					linkdetail.getOriginalUrl(),
 					linkdetail.getShortUrl(),
+					linkdetail.getOriginalUrl(),
 					linkdetail.getExpiryDate(),
 					linkdetail.getCreatedAt(),
-					linkdetail.getExpiryDate()
+					linkdetail.getUpdatedAt()
 					);
 			return linkdetaildto;
 		}
@@ -20,11 +20,11 @@ public class LinkDetailMapper {
 	public static LinkDetail maptoLinkDetail(LinkDetailDto linkdetaildto) {
 		 		LinkDetail linkdetail= new LinkDetail(
 		 				linkdetaildto.getId(),
-		 				linkdetaildto.getOriginalUrl(),
 		 				linkdetaildto.getShortUrl(),
+						linkdetaildto.getOriginalUrl(),
 		 				linkdetaildto.getExpiryDate(),
 		 				linkdetaildto.getCreatedAt(),
-		 				linkdetaildto.getExpiryDate()
+		 				linkdetaildto.getUpdatedAt()
 		 				);
 		return linkdetail;
 	}

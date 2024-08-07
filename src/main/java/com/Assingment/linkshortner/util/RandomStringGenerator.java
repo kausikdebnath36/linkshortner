@@ -19,7 +19,7 @@ public class RandomStringGenerator {
         String generated = "";
 
         var letters =  "abcdefghijklmnöprstuvyzqw123456789"
-                .toUpperCase()
+                .toLowerCase()
                 .chars()
                 .mapToObj(x->(char)x)
                 .collect(Collectors.toList());
