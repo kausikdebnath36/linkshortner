@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class LinkDetailDto {
 
@@ -18,4 +17,14 @@ public class LinkDetailDto {
 	private Date expiryDate;
 	private Date createdAt;
 	private Date updatedAt;
+	private int addOnDays;
+
+	public LinkDetailDto(Long id, String shortUrl, String originalUrl, Date expiryDate, Date createdAt, Date updatedAt) {
+		this.id = id;
+		this.shortUrl = shortUrl;
+		this.originalUrl = originalUrl;
+		this.expiryDate = expiryDate;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 }

@@ -13,7 +13,9 @@ public interface LinkService {
 
     List<LinkDetailDto> getAllShortUrl();
 
-    LinkDetailDto updateShortUrl(List<LinkDetailDto> list,String shortUrl,String newOriginalUrl);
+    LinkDetailDto updateShortUrl(String shortUrl,String newOriginalUrl);
+
+    LinkDetailDto updateExpiry(String shortUrl,int addOnDays);
 
 
 }

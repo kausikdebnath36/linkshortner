@@ -1,9 +1,8 @@
 package com.Assingment.linkshortner.controller;
 
 import com.Assingment.linkshortner.dto.LinkDetailDto;
-import com.Assingment.linkshortner.entity.LinkDetail;
-import com.Assingment.linkshortner.mapper.LinkDetailMapper;
 import com.Assingment.linkshortner.service.LinkService;
+import com.Assingment.linkshortner.util.ResponseObjBol;
 import com.Assingment.linkshortner.util.ResposeObj;
 import com.Assingment.linkshortner.util.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping
@@ -44,7 +43,7 @@ public class LinkShortnerController {
         return resposeObj;
     }
 
-    //Modifi
+    //Redirect api
     @GetMapping("/{shortUrl}")
     public ResponseEntity<LinkDetailDto> redirect( @PathVariable String shortUrl) throws URISyntaxException {
 
@@ -57,17 +56,34 @@ public class LinkShortnerController {
     }
 
     @PutMapping
-    public ResposeObj updateShortLink( @RequestBody Map<String,String> updateAt, Map<String,String> updateWith){
-        String shortUrl= updateAt.get("shortUrl");
-        String originalUrl=updateWith.get("originalUrl");
-        LinkDetailDto linkDetailDto1=linkService.updateShortUrl(linkService.getAllShortUrl(),shortUrl,originalUrl);
-        return new ResposeObj(linkDetailDto1.getShortUrl(),linkDetailDto1.getId(),Status.SUCCESS);
+    public ResponseObjBol updateShortLink(@RequestBody LinkDetailDto linkDetailDto){
+
+        try{
+            linkService.updateShortUrl(linkDetailDto.getShortUrl(),linkDetailDto.getOriginalUrl());
+        }catch(Exception e){
+            return new ResponseObjBol(false);
+        }
+
+        return new ResponseObjBol(true);
     }
 
+
+    //get all short Api
     @GetMapping
     public ResponseEntity<List<LinkDetailDto>> getAllUrls(){
         List<LinkDetailDto> accounts= linkService.getAllShortUrl();
         return ResponseEntity.ok(accounts);
+    }
+    @PutMapping("updateExpiry")
+    public ResponseObjBol updateExpiryDate(@RequestBody LinkDetailDto linkDetailDto){
+
+        try {
+            linkService.updateExpiry(linkDetailDto.getShortUrl(),linkDetailDto.getAddOnDays());
+        } catch (Exception e){
+
+            return new ResponseObjBol(false);
+        }
+        return new ResponseObjBol(true);
     }
 
 

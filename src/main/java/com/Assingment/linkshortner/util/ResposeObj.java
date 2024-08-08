@@ -12,19 +12,15 @@ public class ResposeObj {
 
     private Status status;
 
-    public ResposeObj(Status status) {
-        this.status = status;
-    }
-
-    public ResposeObj() {//
-//        default constructor
-    }
+  
 
     public ResposeObj(String shortUrl, Long id, Status status) {
         this.shortUrl = shortUrl;
         this.id=id;
-        this.status = status;
+        this.status =status;
     }
 
-
+    public ResposeObj(Status status) {
+        this.status = status;
+    }
 }

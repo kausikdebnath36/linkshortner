@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -65,7 +66,8 @@ private final LinkDetailRepository linkDetailRepository;
 
     @Override
     public LinkDetailDto getDetailByShortUrl(String ShortUrl) {
-        return linkDetailRepository.findByShortUrl(ShortUrl).orElseThrow(()->new RuntimeException("Url not found"));
+
+        return LinkDetailMapper.maptoLinkDetailDto(linkDetailRepository.findByShortUrl(ShortUrl).orElseThrow(()->new RuntimeException("Url not found")));
     }
 
     @Override
@@ -75,20 +77,21 @@ private final LinkDetailRepository linkDetailRepository;
     }
 
     @Override
-    public LinkDetailDto updateShortUrl(List<LinkDetailDto> list,String shortUrl, String newOriginalUrl) {
-//        LinkDetailDto linkDetailDto=linkDetailRepository.findByShortUrl(shortUrl).orElseThrow(()-> new RuntimeException("Short url does not exist"));
-//        LinkDetail linkDetail=linkDetailRepository.findById(linkDetailDto.getId()).orElseThrow(()-> new RuntimeException("no such short url"));
-//        Long id=null;
-//        if(compareShortUrlFromList(linkDetailDto,list)){
-//             LinkDetailDto List=new LinkDetailDto();
-//             List= findList(linkDetailDto);
-//           id=List.getId();
-//         }
-//        LinkDetail linkDetail=linkDetailRepository.findById(id).orElseThrow(()-> new RuntimeException("no such short url"));
-//        linkDetail.setOriginalUrl(newOriginalUrl);
-//        LinkDetail saved=linkDetailRepository.save(linkDetail);
-//        return LinkDetailMapper.maptoLinkDetailDto(saved);
- return null;
+    public LinkDetailDto updateShortUrl(String shortUrl, String originalUrl) {
+
+       LinkDetail linkDetail=linkDetailRepository.findByShortUrl(shortUrl).orElseThrow(() ->new RuntimeException("short url does not exist in db"));
+        linkDetail.setOriginalUrl(originalUrl);
+        LinkDetail saved=linkDetailRepository.save(linkDetail);
+        return LinkDetailMapper.maptoLinkDetailDto(saved);
+    }
+
+    @Override
+    public LinkDetailDto updateExpiry(String shortUrl, int addOnDays) {
+        LinkDetail linkDetail=linkDetailRepository.findByShortUrl(shortUrl).orElseThrow(() ->new RuntimeException("short url does not exist in db"));
+        Date updatedExpiry= new Date(linkDetail.getExpiryDate().getTime()+ TimeUnit.DAYS.toMillis(addOnDays));
+        linkDetail.setExpiryDate(updatedExpiry);
+        LinkDetail saved=linkDetailRepository.save(linkDetail);
+        return LinkDetailMapper.maptoLinkDetailDto(saved);
     }
 
 
@@ -123,15 +126,14 @@ private final LinkDetailRepository linkDetailRepository;
         }
         return false;
     }
-    private LinkDetailDto findList(LinkDetailDto link){
+
+    private Long findId(LinkDetailDto link){
         List<LinkDetailDto> temp= getAllShortUrl();
-        ResposeObj resposeObj;
-        Long id=0L;
         for(LinkDetailDto obj:temp) {
 
             if(link.getOriginalUrl().equals(obj.getOriginalUrl())) {
 
-                return  new LinkDetailDto(obj.getId(), obj.getShortUrl(), obj.getOriginalUrl(),obj.getExpiryDate(),obj.getCreatedAt(),obj.getUpdatedAt());
+                return obj.getId();
 
             }
         }

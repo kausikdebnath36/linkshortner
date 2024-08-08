@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface LinkDetailRepository extends JpaRepository<LinkDetail,Long> {
 
 
-   Optional <LinkDetailDto>findByShortUrl(String ShortUrl);
+   Optional <LinkDetail>findByShortUrl(String ShortUrl);
 
    Optional <LinkDetailDto>findByOriginalUrl(String ShortUrl);
 }
