@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class ResponseObjBol {
-    private boolean bol;
-    public ResponseObjBol(boolean bol) {
-        this.bol = bol;
+    private boolean success;
+    public ResponseObjBol(boolean success) {
+        this.success = success;
     }
 
 

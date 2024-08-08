@@ -41,7 +41,7 @@ private final LinkDetailRepository linkDetailRepository;
 
 
          if((link.getShortUrl()==null||link.getShortUrl().isEmpty())){
-             link.setShortUrl(generaterandomstring());
+             link.setShortUrl("http://localhost:8080/"+generaterandomstring());
             if(link.getCreatedAt()==null){
                 List<LinkDetailDto> s= getAllShortUrl();
                 Date currentDate = new Date();

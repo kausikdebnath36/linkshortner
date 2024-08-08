@@ -18,8 +18,7 @@ public class RandomStringGenerator {
         SecureRandom random = new SecureRandom();
         String generated = "";
 
-        var letters =  "abcdefghijklmnöprstuvyzqw123456789"
-                .toLowerCase()
+        var letters =  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnöprstuvyzqw123456789"
                 .chars()
                 .mapToObj(x->(char)x)
                 .collect(Collectors.toList());

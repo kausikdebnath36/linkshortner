@@ -38,15 +38,16 @@ public class LinkShortnerController {
         catch (Exception exception){
             return new ResposeObj(Status.FAILURE);
         }
-        resposeObj= new ResposeObj(linkDetailDto1.getShortUrl(),linkDetailDto1.getId(),Status.SUCCESS);
+         new ResposeObj(linkDetailDto1.getShortUrl(),linkDetailDto1.getId(),Status.SUCCESS);
 
-        return resposeObj;
+        return new ResposeObj(linkDetailDto1.getShortUrl(),linkDetailDto1.getId(),Status.SUCCESS);
     }
 
     //Redirect api
     @GetMapping("/{shortUrl}")
     public ResponseEntity<LinkDetailDto> redirect( @PathVariable String shortUrl) throws URISyntaxException {
 
+        shortUrl="http://localhost:8080/"+shortUrl;
         LinkDetailDto shortdetail = linkService.getDetailByShortUrl(shortUrl);
 
         URI uri = new URI(shortdetail.getOriginalUrl());
@@ -55,7 +56,7 @@ public class LinkShortnerController {
         return new ResponseEntity<>(httpHeaders,HttpStatus.SEE_OTHER);
     }
 
-    @PutMapping
+    @PostMapping("update")
     public ResponseObjBol updateShortLink(@RequestBody LinkDetailDto linkDetailDto){
 
         try{
@@ -74,7 +75,7 @@ public class LinkShortnerController {
         List<LinkDetailDto> accounts= linkService.getAllShortUrl();
         return ResponseEntity.ok(accounts);
     }
-    @PutMapping("updateExpiry")
+    @PostMapping("updateExpiry")
     public ResponseObjBol updateExpiryDate(@RequestBody LinkDetailDto linkDetailDto){
 
         try {
