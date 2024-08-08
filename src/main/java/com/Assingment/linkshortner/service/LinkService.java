@@ -18,4 +18,5 @@ public interface LinkService {
     LinkDetailDto updateExpiry(String shortUrl,int addOnDays);
 
 
+    Date currentDate();
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -50,10 +51,12 @@ public class LinkShortnerController {
         shortUrl="http://localhost:8080/"+shortUrl;
         LinkDetailDto shortdetail = linkService.getDetailByShortUrl(shortUrl);
 
-        URI uri = new URI(shortdetail.getOriginalUrl());
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(uri);
-        return new ResponseEntity<>(httpHeaders,HttpStatus.SEE_OTHER);
+            URI uri = new URI(shortdetail.getOriginalUrl());
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setLocation(uri);
+            return new ResponseEntity<>(httpHeaders,HttpStatus.SEE_OTHER);
+
+
     }
 
     @PostMapping("update")

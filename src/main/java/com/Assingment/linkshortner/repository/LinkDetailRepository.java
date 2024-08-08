@@ -11,5 +11,5 @@ public interface LinkDetailRepository extends JpaRepository<LinkDetail,Long> {
 
    Optional <LinkDetail>findByShortUrl(String ShortUrl);
 
-   Optional <LinkDetailDto>findByOriginalUrl(String ShortUrl);
+
 }

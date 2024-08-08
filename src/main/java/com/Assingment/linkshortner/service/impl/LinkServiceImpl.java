@@ -7,7 +7,6 @@ import com.Assingment.linkshortner.repository.LinkDetailRepository;
 import com.Assingment.linkshortner.service.LinkService;
 import com.Assingment.linkshortner.util.RandomStringGenerator;
 import com.Assingment.linkshortner.util.ResposeObj;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -44,15 +43,7 @@ private final LinkDetailRepository linkDetailRepository;
              link.setShortUrl("http://localhost:8080/"+generaterandomstring());
             if(link.getCreatedAt()==null){
                 List<LinkDetailDto> s= getAllShortUrl();
-                Date currentDate = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String currentDateTime = dateFormat. format(currentDate);
-                Date creationDate= null;
-                try {
-                    creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(currentDateTime);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+                Date creationDate=currentDate();
                 link.setCreatedAt(creationDate);
                 link.setUpdatedAt(creationDate);
                 link.setExpiryDate(generateExpiryDate(creationDate));
@@ -79,7 +70,7 @@ private final LinkDetailRepository linkDetailRepository;
     @Override
     public LinkDetailDto updateShortUrl(String shortUrl, String originalUrl) {
 
-       LinkDetail linkDetail=linkDetailRepository.findByShortUrl(shortUrl).orElseThrow(() ->new RuntimeException("short url does not exist in db"));
+       LinkDetail linkDetail=linkDetailRepository.findByShortUrl(shortUrl.substring(22)).orElseThrow(() ->new RuntimeException("short url does not exist in db"));
         linkDetail.setOriginalUrl(originalUrl);
         LinkDetail saved=linkDetailRepository.save(linkDetail);
         return LinkDetailMapper.maptoLinkDetailDto(saved);
@@ -126,18 +117,19 @@ private final LinkDetailRepository linkDetailRepository;
         }
         return false;
     }
-
-    private Long findId(LinkDetailDto link){
-        List<LinkDetailDto> temp= getAllShortUrl();
-        for(LinkDetailDto obj:temp) {
-
-            if(link.getOriginalUrl().equals(obj.getOriginalUrl())) {
-
-                return obj.getId();
-
-            }
+    @Override
+    public Date currentDate(){
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateTime = dateFormat. format(currentDate);
+        Date currentFormattedDate= null;
+        try {
+            currentFormattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(currentDateTime);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+        return currentFormattedDate;
     }
+
 
 }
