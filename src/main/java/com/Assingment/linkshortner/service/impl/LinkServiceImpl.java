@@ -26,11 +26,10 @@ private final RandomStringGenerator randomStringGenerator;
 private final LinkDetailRepository linkDetailRepository;
 
 
-    @Autowired
-    public LinkServiceImpl(RandomStringGenerator randomStringGenerator, LinkDetailRepository linkDetailRepository, LinkDetailDto linkDetailDto) {
+
+    public LinkServiceImpl(RandomStringGenerator randomStringGenerator, LinkDetailRepository linkDetailRepository) {
         this.randomStringGenerator = randomStringGenerator;
         this.linkDetailRepository = linkDetailRepository;
-
     }
 
     @Override
@@ -41,7 +40,7 @@ private final LinkDetailRepository linkDetailRepository;
 
 
          if((link.getShortUrl()==null||link.getShortUrl().isEmpty())){
-             link.setShortUrl(generaterandomstring(link.getId()));
+             link.setShortUrl(generaterandomstring());
             if(link.getCreatedAt()==null){
                 List<LinkDetailDto> s= getAllShortUrl();
                 Date currentDate = new Date();
@@ -79,27 +78,26 @@ private final LinkDetailRepository linkDetailRepository;
     public LinkDetailDto updateShortUrl(List<LinkDetailDto> list,String shortUrl, String newOriginalUrl) {
 //        LinkDetailDto linkDetailDto=linkDetailRepository.findByShortUrl(shortUrl).orElseThrow(()-> new RuntimeException("Short url does not exist"));
 //        LinkDetail linkDetail=linkDetailRepository.findById(linkDetailDto.getId()).orElseThrow(()-> new RuntimeException("no such short url"));
-        Long id=null;
-        if(compareShortUrlFromList(linkDetailDto,list)){
-             LinkDetailDto List=new LinkDetailDto();
-             List= findList(linkDetailDto);
-           id=List.getId();
-         }
-        LinkDetail linkDetail=linkDetailRepository.findById(id).orElseThrow(()-> new RuntimeException("no such short url"));
-        linkDetail.setOriginalUrl(newOriginalUrl);
-        LinkDetail saved=linkDetailRepository.save(linkDetail);
-        return LinkDetailMapper.maptoLinkDetailDto(saved);
-
+//        Long id=null;
+//        if(compareShortUrlFromList(linkDetailDto,list)){
+//             LinkDetailDto List=new LinkDetailDto();
+//             List= findList(linkDetailDto);
+//           id=List.getId();
+//         }
+//        LinkDetail linkDetail=linkDetailRepository.findById(id).orElseThrow(()-> new RuntimeException("no such short url"));
+//        linkDetail.setOriginalUrl(newOriginalUrl);
+//        LinkDetail saved=linkDetailRepository.save(linkDetail);
+//        return LinkDetailMapper.maptoLinkDetailDto(saved);
+ return null;
     }
 
 
-    private String generaterandomstring(Long i) {
+    private String generaterandomstring() {
         String randomurl;
-        do {
-            randomurl=randomStringGenerator.generateRandomString();
-        }
-        while(linkDetailRepository.findById(i).isPresent());
-            return randomurl;
+
+        randomurl=randomStringGenerator.generateRandomString();
+
+        return randomurl;
     }
 
     private Date generateExpiryDate(Date creationDate){

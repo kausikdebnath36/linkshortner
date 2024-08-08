@@ -6,6 +6,7 @@ import com.Assingment.linkshortner.mapper.LinkDetailMapper;
 import com.Assingment.linkshortner.service.LinkService;
 import com.Assingment.linkshortner.util.ResposeObj;
 import com.Assingment.linkshortner.util.Status;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class LinkShortnerController {
 
  private LinkService linkService;
-
+    @Autowired
     public LinkShortnerController(LinkService linkService) {
 
         this.linkService = linkService;
